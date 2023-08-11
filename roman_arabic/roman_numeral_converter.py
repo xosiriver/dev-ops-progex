@@ -22,12 +22,16 @@ roman_to_num = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100, "D": 500, "M": 1000}
 def to_roman_numeral(num):
     r = ""
     keys = sorted(num_to_roman.keys(), reverse=True)
-
+    if num == 0:
+        return "nulla"   #special case1
     for key in keys:
         while num >= key:
             r += num_to_roman[key]
             num -= key
-
+    
+    if any(r[i:i+4] == r[i]*4 for i in range(len(r) - 4 + 1)):
+        return "!!!This number cannot be represented by traditional roman numerals!!!"
+    
     return r
 
 
@@ -44,8 +48,9 @@ def to_arabic_number(numeral):
 
     return anum
 
-
+'''
 if sys.argv[1].isdigit():
     print(to_roman_numeral(int(sys.argv[1])))
 else:
     print(to_arabic_number(str(sys.argv[1])))
+'''

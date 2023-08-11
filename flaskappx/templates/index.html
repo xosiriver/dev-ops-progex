@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roman Numeral Converter</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 400px;
+            margin: 100px auto;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+        h2 {
+            color: #343a40;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            color: #343a40;
+        }
+        .btn-primary {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            border-color: #0056b3;
+        }
+        #conversionResults {
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Roman Numeral Converter</h2>
+        <form id="conversionForm">
+            <div class="form-group">
+                <label for="inputNumber">Arabic Number:</label>
+                <input type="number" class="form-control" id="inputNumber" name="inputNumber" placeholder="Enter Arabic Number">
+            </div>
+            <div class="form-group">
+                <label for="inputRoman">Roman Numeral:</label>
+                <input type="text" class="form-control" id="inputRoman" name="inputRoman" placeholder="Enter Roman Numeral">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Convert</button>
+        </form>
+        <div id="conversionResults">
+            <h4>Conversion Results:</h4>
+            <p><strong>Arabic Number:</strong> <span id="convertedNumber"></span></p>
+            <p><strong>Roman Numeral:</strong> <span id="convertedRoman"></span></p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("conversionForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(document.getElementById("conversionForm"));
+
+            try {
+                const response = await fetch("/convert", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById("convertedNumber").textContent = data.convertedNumber;
+                    document.getElementById("convertedRoman").textContent = data.convertedRoman;
+                    document.getElementById("conversionResults").style.display = "block";
+                } else {
+                    console.error('Conversion failed.');
+                }
+            } catch (error) {
+                console.error('An error occurred:', error);
+            }
+        });
+    </script>
+</body>
+</html>
+
