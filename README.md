@@ -1,0 +1,1 @@
+Some programming exercises for the end of riversafes intro to programming .
